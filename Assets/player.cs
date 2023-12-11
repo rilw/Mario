@@ -15,7 +15,7 @@ public class player : MonoBehaviour
     public Transform GroundCheck;
     private float GroundCheckRadius;
     private Vector3 respawnPoint;
-    
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -24,22 +24,22 @@ public class player : MonoBehaviour
         respawnPoint = transform.position;
     }
 
-   
+
     void Update()
     {
         horizontal = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
-        animator.SetFloat("moveX", Mathf.Abs (horizontal));
+        animator.SetFloat("moveX", Mathf.Abs(horizontal));
 
-     /*   if(horizontal > 0 && !flipRight)
-        {
-            Flip();
-        }else if(horizontal < 0 && flipRight)
-        {
-            Flip();
-        }
-     */
-     if((horizontal > 0 && !flipRight) || (horizontal < 0 && flipRight))
+        /*   if(horizontal > 0 && !flipRight)
+           {
+               Flip();
+           }else if(horizontal < 0 && flipRight)
+           {
+               Flip();
+           }
+        */
+        if ((horizontal > 0 && !flipRight) || (horizontal < 0 && flipRight))
         {
             transform.localScale *= new Vector2(-1, 1);
             flipRight = !flipRight;
@@ -48,19 +48,17 @@ public class player : MonoBehaviour
         Jump();
         CheckingGround();
 
-        
+
     }
- /* void Flip()
+    void Flip()
     {
         flipRight = !flipRight;
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
+            transform.Rotate(0, 180, 0);
     }
- */
- void Jump()
+
+    void Jump()
     {
-        if(onGround && Input.GetKeyDown(KeyCode.Space))
+        if (onGround && Input.GetKeyDown(KeyCode.Space))
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
@@ -68,7 +66,7 @@ public class player : MonoBehaviour
     void CheckingGround()
     {
         onGround = Physics2D.OverlapCircle(GroundCheck.position, GroundCheckRadius, Ground);
-       
+
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -80,6 +78,24 @@ public class player : MonoBehaviour
         {
             respawnPoint = transform.position;
         }
+
+
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.name.Equals("platform"))
+        {
+            this.transform.parent = collision.transform;
+        }
+    }
+
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.name.Equals("platform"))
+        {
+            this.transform.parent = null;
+        }
     }
 }
-

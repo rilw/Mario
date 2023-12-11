@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     private bool movingLeft;
     private float leftEdge;
     private float rightEdge;
+    public int health;
 
     private void Awake()
     {
@@ -42,6 +43,12 @@ public class Enemy : MonoBehaviour
                 movingLeft = true;
             }
         }
+
+        if (health < 0)
+        {
+            Destroy(gameObject);
+        }
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -49,6 +56,11 @@ public class Enemy : MonoBehaviour
         if(collision.tag == "Player")
         {
             collision.GetComponent<Health>().TakeDamage(damage);
+
+        }
+        if (collision.CompareTag("bullet"))
+        {
+            health = health - 1;
         }
     }
 }
