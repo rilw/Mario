@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
     private float leftEdge;
     private float rightEdge;
     public int health;
-
+    public GameObject DroppedCoin;
     private void Awake()
     {
         leftEdge = transform.position.x - moveDistance;
@@ -61,6 +61,15 @@ public class Enemy : MonoBehaviour
         if (collision.CompareTag("bullet"))
         {
             health = health - 1;
+        }
+    }
+
+    void hilka()
+    {
+        if(health <= 0)
+        {
+            gameObject.SetActive(false);
+            Instantiate(DroppedCoin, transform.position, transform.rotation);
         }
     }
 }
