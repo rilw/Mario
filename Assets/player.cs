@@ -31,19 +31,19 @@ public class player : MonoBehaviour
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
         animator.SetFloat("moveX", Mathf.Abs(horizontal));
 
-        /*   if(horizontal > 0 && !flipRight)
+          if(horizontal > 0 && !flipRight)
            {
                Flip();
            }else if(horizontal < 0 && flipRight)
            {
                Flip();
            }
-        */
-        if ((horizontal > 0 && !flipRight) || (horizontal < 0 && flipRight))
+        
+       /* if ((horizontal > 0 && !flipRight) || (horizontal < 0 && flipRight))
         {
             transform.localScale *= new Vector2(-1, 1);
             flipRight = !flipRight;
-        }
+        }*/
 
         Jump();
         CheckingGround();
